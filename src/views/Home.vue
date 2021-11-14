@@ -2,6 +2,10 @@
   <div class="overflow-x-auto">
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
+    <div class="text-h6 mb-10 font-weight-bold indigo--text">
+      CSVファイルの指定された列のデータをQRにします。
+    </div>
+
     <label>
       <input type="file" @change="onUpload" />
     </label>
