@@ -15,6 +15,7 @@
       <span class="font-weight-black"> になっているのが、QRの内容です。 </span>
     </p>
 
+    <!--文字コードの設定-->
     <p class="mt-4 mb-4">
       <span>文字コード:</span>
 
@@ -36,12 +37,21 @@
       </span>
     </p>
 
+    <!--QRにするのが各行の何列目か-->
+    <p class="mt-4 mb-4">
+      <span>QRにするのは何列目ですか。最初の列を0として数えてください。:</span>
+
+      <label class="mr-2 ml-2">
+        <input type="number" min="0" v-model.number="qr_index" />
+      </label>
+    </p>
+
     <ul>
       <div v-for="(item, index) in workers" :key="item" class="item">
         <qr-item
           class="mt-15 mb-15"
           :data="item"
-          :qr_index="5"
+          :qr_index="qr_index"
           :index="index"
         ></qr-item>
       </div>
