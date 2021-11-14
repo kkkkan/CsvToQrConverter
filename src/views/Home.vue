@@ -40,6 +40,11 @@ export default {
   methods: {
     // 新しいファイルがアップロードされたとき
     onUpload: function (event) {
+      // 状態を初期化
+
+      this.errorMessage = '';
+      this.workers = [];
+
       const files = event.target.files || event.dataTransfer.files;
       const file = files[0];
 
@@ -49,7 +54,6 @@ export default {
       }
 
       this.fileName = file.name;
-      // this.errorMessage = file.name;
 
       let reader = new FileReader();
       reader.readAsText(file, 'Shift_JIS');
