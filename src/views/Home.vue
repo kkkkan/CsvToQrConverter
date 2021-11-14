@@ -127,6 +127,11 @@ export default {
         }
         let linesArr = [];
         for (let i = 0; i < lines.length; i++) {
+          if (i == lines.length - 1 && lines[i].length == 0) {
+            // 最終行で中身がないときはスキップ
+            // csvは最後行が改行で終わっていることが多いみたいだ
+            break;
+          }
           linesArr[i] = lines[i].split(',');
         }
         this.workers = linesArr;
