@@ -5,15 +5,18 @@
     <v-container class="d-flex justify-content-center">
       <v-col>
         <v-row>
-          <vue-qrcode :value="getTarget(data, qr_index)" tag="img"></vue-qrcode>
+          <vue-qrcode :value="getQrTarget()" tag="img"></vue-qrcode>
         </v-row>
       </v-col>
 
       <v-col>
-        <div v-for="(item, index) in data" :key="item" class="mr-4 ml-4">
+        <div v-for="(item, _index) in data" :key="item" class="mr-4 ml-4">
           <!--URLにしているものだったら赤字で太め、それ以外は黒字で表示-->
-          <div v-if="index != qr_index">{{ item }}</div>
-          <div v-if="index == qr_index" class="red--text font-weight-black">
+          <div v-if="_index != getQrTargetIndex()">{{ item }}</div>
+          <div
+            v-if="_index == getQrTargetIndex()"
+            class="red--text font-weight-black"
+          >
             {{ item }}
           </div>
         </div>
@@ -66,8 +69,20 @@ export default {
     getTitle: function () {
       return this.index + 1;
     },
-    getTarget: function (array, index) {
-      return array[index];
+    // QRコードにする文字列の取得
+    getQrTarget: function () {
+      const targetIndex = this.getQrTargetIndex();
+      return this.data[targetIndex];
+    },
+    // QRコードにするコンテンツのindexを計算
+    getQrTargetIndex: function () {
+      if (this.qr_index >= this.data.length) {
+        // 指定されたqr_indexがdata長より長かったら
+        // ないはずだが念のため
+        return this.data.length - 1;
+      } else {
+        return this.qr_index;
+      }
     },
   },
 };
