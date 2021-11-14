@@ -3,7 +3,7 @@
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
     <div class="text-h6 mb-10 font-weight-bold indigo--text">
-      CSVファイルの指定された列のデータをQRにします。
+      CSVファイルの指定された列のデータをQRコード画像にします。
     </div>
 
     <label>
@@ -18,7 +18,9 @@
     <!--エラーメッセージがなく、csvがアップロードされていたら表示-->
     <p v-if="!this.error_message && this.workers.length > 0" class="mt-4">
       <span class="red--text font-weight-black"> 赤字 </span>
-      <span class="font-weight-black"> になっているのが、QRの内容です。 </span>
+      <span class="font-weight-black">
+        になっているのが、QRコードの内容です。
+      </span>
     </p>
 
     <!--文字コードの設定-->
