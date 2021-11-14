@@ -2,6 +2,15 @@
 
 > A Vue.js project
 
+アップロードしたCSVファイルの指定された列のデータをQRコード画像にするwebアプリです。
+![スクリーンショット](https://user-images.githubusercontent.com/22609306/141678628-11b36273-c482-46ea-8139-b4923605dd67.png)
+
+
+リリースURL :
+https://csvtoqrconverter.web.app/
+
+
+
 ## Build Setup
 
 ``` bash
