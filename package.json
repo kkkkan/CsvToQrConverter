@@ -10,11 +10,14 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "vue": "^2.5.2",
+    "@chenfengyuan/vue-qrcode": "^1.0.2",
+    "csv-parser": "^3.0.0",
+    "vue": "^2.6.14",
     "vue-router": "^3.0.1",
     "vuetify": "^2.5.14"
   },
   "devDependencies": {
+    "@types/chenfengyuan__vue-qrcode": "^1.0.3",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
