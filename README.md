@@ -3,7 +3,8 @@
 > A Vue.js project
 
 アップロードしたCSVファイルの指定された列のデータをQRコード画像にするwebアプリです。
-![スクリーンショット](https://user-images.githubusercontent.com/22609306/141678628-11b36273-c482-46ea-8139-b4923605dd67.png)
+![スクリーンショット](https://user-images.githubusercontent.com/22609306/141678741-b005ffc7-a510-4c43-825c-d564e393701d.png)
+
 
 
 リリースURL :
