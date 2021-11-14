@@ -5,7 +5,8 @@
       <input type="file" @change="onUpload" />
     </label>
 
-    <p>{{ message }}</p>
+    <!--エラーメッセージがあったら表示-->
+    <p v-if="this.errorMessage" class="mt-4">{{ errorMessage }}</p>
 
     <ul>
       <div v-for="(item, index) in workers" :key="item" class="item">
@@ -31,23 +32,24 @@ export default {
 
   data() {
     return {
-      message: '',
-      workers: [],
+      errorMessage: '', // エラーメッセージ
+      workers: [], // アップロードされたcsvの内容
     };
   },
 
   methods: {
+    // 新しいファイルがアップロードされたとき
     onUpload: function (event) {
       const files = event.target.files || event.dataTransfer.files;
       const file = files[0];
 
       if (!file.type.match('text/csv')) {
-        this.message = 'CSVファイルを選択してください';
+        this.errorMessage = 'CSVファイルを選択してください';
         return;
       }
 
       this.fileName = file.name;
-      this.message = file.name;
+      // this.errorMessage = file.name;
 
       let reader = new FileReader();
       reader.readAsText(file, 'Shift_JIS');
