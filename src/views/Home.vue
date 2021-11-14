@@ -47,36 +47,22 @@
     </p>
 
     <!--最初の行もQR化するか-->
-    <!--先頭をQRにするか選べるようにすると、一つのファイルでON/OFFを切り替えたときに再描写が追い付かなくて(?)変になったのでいったんコメントアウト-->
-    <!--  <p class="mt-4 mb-4">
+    <p class="mt-4 mb-4">
       <label>
         <input type="checkbox" v-model="is_encode_first_row" />
         先頭行もQRにする
       </label>
-    </p> -->
+    </p>
 
     <!--QR一覧-->
     <ul>
       <div v-for="(item, index) in workers" :key="item" class="item">
-        <!-- <p v-if="is_encode_first_row"> -->
         <qr-item
           class="mt-15 mb-15"
           :data="item"
           :qr_index="qr_index"
           :index="index"
         ></qr-item>
-        <!-- </p> -->
-
-        <!-- <p v-else>
-          <p v-if="index != 0">
-          <qr-item
-            class="mt-15 mb-15"
-            :data="item"
-            :qr_index="qr_index"
-            :index="index-1"
-          ></qr-item>
-          </p>
-        </p> -->
       </div>
     </ul>
   </div>
@@ -135,7 +121,10 @@ export default {
 
       reader.onload = () => {
         let lines = reader.result.split('\n');
-        // lines.shift();
+        if (!this.is_encode_first_row) {
+          // 先頭列はQR対象外のときは1個スキップ
+          lines.shift();
+        }
         let linesArr = [];
         for (let i = 0; i < lines.length; i++) {
           linesArr[i] = lines[i].split(',');
@@ -147,6 +136,13 @@ export default {
 
   watch: {
     workers: function (newValue, oldValue) {
+      this.makeWorkers();
+    },
+    is_encode_first_row: function () {
+      // 先頭行もQRにするか否かを変えた時はデータごと変えてやる
+      // 最初は、データは変えずv-ifでUIの方だけ出しわけようとしたが
+      // それだとファイルは同じままON/OFFを入れ替えた時に、再描写が追い付かないのか表示がおかしくなった。
+      // ので、データごと作り直してやる。
       this.makeWorkers();
     },
   },
