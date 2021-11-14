@@ -11,7 +11,9 @@
     </label>
 
     <!--エラーメッセージがあったら表示-->
-    <p v-if="this.error_message" class="mt-4">{{ error_message }}</p>
+    <p v-if="this.error_message" class="mt-4 font-weight-bold red--text">
+      {{ error_message }}
+    </p>
 
     <!--エラーメッセージがなく、csvがアップロードされていたら表示-->
     <p v-if="!this.error_message && this.workers.length > 0" class="mt-4">
@@ -25,18 +27,20 @@
 
       <span>
         <label class="mr-2 ml-2">
-          <input
-            type="radio"
-            v-model="character_code"
-            value="Shift_JIS"
-          />Shift_JIS</label
+          <input type="radio" v-model="character_code" value="Shift_JIS" /><span
+            v-bind:class="{
+              'font-weight-bold': character_code == 'Shift_JIS',
+            }"
+            >Shift_JIS</span
+          ></label
         >
         <label
-          ><input
-            type="radio"
-            v-model="character_code"
-            value="utf-8"
-          />UTF-8</label
+          ><input type="radio" v-model="character_code" value="utf-8" /><span
+            v-bind:class="{
+              'font-weight-bold': character_code == 'utf-8',
+            }"
+            >UTF-8</span
+          ></label
         >
       </span>
     </p>
@@ -46,7 +50,12 @@
       <span>QRにするのは何列目ですか。最初の列を0として数えてください。:</span>
 
       <label class="mr-2 ml-2">
-        <input type="number" min="0" v-model.number="qr_index" />
+        <input
+          type="number"
+          min="0"
+          v-model.number="qr_index"
+          class="font-weight-bold"
+        />
       </label>
     </p>
 
@@ -54,7 +63,13 @@
     <p class="mt-4 mb-4">
       <label>
         <input type="checkbox" v-model="is_encode_first_row" />
-        先頭行もQRにする
+        <span
+          v-bind:class="{
+            'font-weight-bold': is_encode_first_row,
+          }"
+        >
+          先頭行もQRにする
+        </span>
       </label>
     </p>
 
