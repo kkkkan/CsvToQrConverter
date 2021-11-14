@@ -46,14 +46,37 @@
       </label>
     </p>
 
+    <!--最初の行もQR化するか-->
+    <!--先頭をQRにするか選べるようにすると、一つのファイルでON/OFFを切り替えたときに再描写が追い付かなくて(?)変になったのでいったんコメントアウト-->
+    <!--  <p class="mt-4 mb-4">
+      <label>
+        <input type="checkbox" v-model="is_encode_first_row" />
+        先頭行もQRにする
+      </label>
+    </p> -->
+
+    <!--QR一覧-->
     <ul>
       <div v-for="(item, index) in workers" :key="item" class="item">
+        <!-- <p v-if="is_encode_first_row"> -->
         <qr-item
           class="mt-15 mb-15"
           :data="item"
           :qr_index="qr_index"
           :index="index"
         ></qr-item>
+        <!-- </p> -->
+
+        <!-- <p v-else>
+          <p v-if="index != 0">
+          <qr-item
+            class="mt-15 mb-15"
+            :data="item"
+            :qr_index="qr_index"
+            :index="index-1"
+          ></qr-item>
+          </p>
+        </p> -->
       </div>
     </ul>
   </div>
