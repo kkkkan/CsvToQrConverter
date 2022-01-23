@@ -143,7 +143,7 @@ export default {
 
     // 必要なサイズの画像を作成してダウンロードする
     makeResizeIamgeFiles: function () {
-      this.resizeImgAndDownload(this.file,160,160);
+      this.resizeImgAndDownload(this.file, 160, 160);
     },
 
 
