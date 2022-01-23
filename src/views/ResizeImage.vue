@@ -20,86 +20,6 @@
     </p>
 
     <canvas ref="canvas"></canvas>
-
-    <!--エラーメッセージがなく、csvがアップロードされていたら表示-->
-    <!--<p v-if="!this.error_message && this.workers.length > 0" class="mt-4">
-      <span class="red--text font-weight-black"> 赤字 </span>
-      <span class="font-weight-black">
-        になっているのが、QRコードの内容です。
-      </span>
-    </p>
--->
-    <!--文字コードの設定-->
-    <!--<p class="mt-4 mb-4">
-      <span>文字コード:</span>
-
-      <span>
-        <label class="mr-2 ml-2">
-          <input type="radio" v-model="character_code" value="Shift_JIS" /><span
-            v-bind:class="{
-              'font-weight-bold': character_code == 'Shift_JIS',
-            }"
-            >Shift_JIS</span
-          ></label
-        >
-        <label
-          ><input type="radio" v-model="character_code" value="utf-8" /><span
-            v-bind:class="{
-              'font-weight-bold': character_code == 'utf-8',
-            }"
-            >UTF-8</span
-          ></label
-        >
-      </span>
-    </p>
--->
-    <!--QRにするのが各行の何列目か-->
-    <!-- <p class="mt-4 mb-4">
-      <span
-        >QRコード画像にするのは何列目ですか。最初の列を0として数えてください。:</span
-      >
-
-      <label class="mr-2 ml-2">
-        <input
-          type="number"
-          min="0"
-          v-model.number="qr_index"
-          class="font-weight-bold"
-        />
-      </label>
-    </p>
--->
-    <!--CSVファイルの全列数より大きな数字を指定した場合の挙動の説明。文字は小さくして、少し奥から始める。-->
-    <!--  <p class="text-body2 ml-3">
-      ※アップロードしたCSVの列数より大きい数を指定した場合、最後の列がQRコード画像になります。
-    </p>
--->
-    <!--最初の行もQR化するか-->
-    <!-- <p class="mt-4 mb-4">
-      <label>
-        <input type="checkbox" v-model="is_encode_first_row" />
-        <span
-          v-bind:class="{
-            'font-weight-bold': is_encode_first_row,
-          }"
-        >
-          先頭行もQRにする
-        </span>
-      </label>
-    </p>
--->
-    <!--QR一覧-->
-    <!--  <ul>
-      <div v-for="(item, index) in workers" :key="item" class="item">
-        <qr-item
-          class="mt-15 mb-15"
-          :data="item"
-          :qr_index="qr_index"
-          :index="index"
-        ></qr-item>
-      </div>
-    </ul>
-    -->
   </div>
 </template>
 
@@ -204,13 +124,6 @@ export default {
 
   watch: {
     workers: function (newValue, oldValue) {
-      this.makeResizeIamgeFiles();
-    },
-    is_encode_first_row: function () {
-      // 先頭行もQRにするか否かを変えた時はデータごと変えてやる
-      // 最初は、データは変えずv-ifでUIの方だけ出しわけようとしたが
-      // それだとファイルは同じままON/OFFを入れ替えた時に、再描写が追い付かないのか表示がおかしくなった。
-      // ので、データごと作り直してやる。
       this.makeResizeIamgeFiles();
     },
   },
