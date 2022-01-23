@@ -116,7 +116,7 @@ export default {
             width +
             '_×' +
             height +
-            '.jpg';
+            '.png';
           //クリックイベントを発生させる
           a.click();
         },
