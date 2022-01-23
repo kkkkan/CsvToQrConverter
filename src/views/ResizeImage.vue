@@ -22,7 +22,10 @@
     </p>
 
     <!--エラーメッセージがあったら表示-->
-    <p v-if="this.error_message" class="mt-4 font-weight-bold red--text">
+    <p
+      v-if="this.error_message"
+      class="mt-4 text-h6 font-weight-bold red--text"
+    >
       {{ error_message }}
     </p>
 
@@ -56,7 +59,7 @@ export default {
       const _file = files[0];
 
       if (!_file.type.match('image/png')) {
-        this.error_message = 'pngファイルを選択してください';
+        this.error_message = '!!! PNGファイルを選択してください !!!';
         return;
       }
 
