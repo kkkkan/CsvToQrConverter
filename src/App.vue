@@ -6,7 +6,7 @@
          <v-icon>mdi-menu</v-icon> <!--メニューアイコン-->
         </v-app-bar-nav-icon>
       <v-toolbar-title class="indigo--text font-weight-black text-h4 mt-2">
-        CSV → QR 生成</v-toolbar-title
+        {{ appTitle }}</v-toolbar-title
       >
 
       <v-spacer></v-spacer>
@@ -82,9 +82,33 @@ export default {
   data() {
     return {
       GitHash: GitHash,
-      drawer: false
+      drawer: false,
+      appTitle: String,
     };
   },
+
+  methods: {
+    // タイトルを設定する
+    // 表示しているページによって変える
+    createTitleDesc: function (routeInstance) {
+      if (routeInstance.meta.appTitle) {
+        var setTitle = routeInstance.meta.appTitle
+        this.appTitle = setTitle
+      } else {
+        this.appTitle = 'title is not set'
+      }
+    },
+  },
+  mounted: function () {
+    var routeInstance = this.$route
+    this.createTitleDesc(routeInstance)
+  },
+  watch: {
+  $route(routeInstance, from) {
+    this.createTitleDesc(routeInstance)
+  }
+  },
+
 };
 </script>
 
