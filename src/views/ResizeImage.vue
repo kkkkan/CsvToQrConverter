@@ -29,7 +29,7 @@
       {{ error_message }}
     </p>
 
-    <canvas ref="canvas"></canvas>
+    <!-- <canvas ref="canvas"></canvas> -->
   </div>
 </template>
 
@@ -41,8 +41,6 @@ export default {
     return {
       error_message: '', // エラーメッセージ
       file: null, // アップロードされたFile
-      canvas: null,
-      context: null,
     };
   },
 
@@ -85,10 +83,12 @@ export default {
 
     // 指定されたサイズに画像をリサイズしてダウンロードする
     resizeImgAndDownload: function (image_file, width, height) {
-      const canvas = this.canvas;
+      // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
+      // 生成画像の大きさがおかしくなる。
+      const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
-      const ctx = this.context;
+      const ctx = canvas.getContext('2d');
       const imageBitmapPromise = createImageBitmap(image_file);
 
       imageBitmapPromise.then(
@@ -135,11 +135,6 @@ export default {
     workers: function (newValue, oldValue) {
       this.makeResizeIamgeFiles();
     },
-  },
-
-  mounted: function () {
-    this.canvas = this.$refs.canvas;
-    this.context = this.canvas.getContext('2d');
   },
 };
 </script>
