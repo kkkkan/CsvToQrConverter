@@ -101,10 +101,9 @@ export default {
           // ------------------------------------------------------------
           ctx.drawImage(image_bitmap, 0, 0, width, height);
 
-          // var canvas = document.getElementById(canvas_id);
           //アンカータグを作成
           var a = document.createElement('a');
-          //canvasをJPEG変換し、そのBase64文字列をhrefへセット
+          //canvasをpng変換し、そのBase64文字列をhrefへセット
           a.href = canvas.toDataURL('image/png');
           //ダウンロード時のファイル名を指定
           // 「元のファイル名+大きさ」
