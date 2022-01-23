@@ -160,7 +160,7 @@ export default {
             // ------------------------------------------------------------
             // ImageBitmap オブジェクトを描画する
             // ------------------------------------------------------------
-            ctx.drawImage(image_bitmap, 0, 0);
+            ctx.drawImage(image_bitmap, 0, 0, width, height);
 
             // var canvas = document.getElementById(canvas_id);
             //アンカータグを作成
