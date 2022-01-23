@@ -11,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/resize-image',
+      name: 'ResizeImage',
+      component: Home
     }
   ]
 })

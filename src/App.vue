@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark　>
+  <header>
+    <v-app-bar app color="primary" light>
+        <v-app-bar-nav-icon v-on:click="drawer = true" >
+         <v-icon>mdi-menu</v-icon> <!--メニューアイコン-->
+        </v-app-bar-nav-icon>
       <v-toolbar-title class="indigo--text font-weight-black text-h4 mt-2">
         CSV → QR 生成</v-toolbar-title
       >
@@ -23,6 +27,30 @@
         </v-row> -->
       </v-container>
     </v-app-bar>
+       <!-- ここから -->
+      <v-navigation-drawer
+        v-model="drawer"
+        fixed
+        temporary
+      >
+        <v-list
+          nav
+          dense
+        >
+          <v-list-item-group>
+            <v-list-item
+            v-on:click="$router.push({path:'/'})"
+            >
+              <v-list-item-title>CSV To QR</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+             v-on:click="$router.push({path:'/resize-image'})"
+            >
+              <v-list-item-title>画像リサイズ</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-navigation-drawer>
 
     <v-main class="mt-10 mb-10">
       <v-container　class="main">
@@ -41,6 +69,7 @@
         </v-row>
       </v-container>
     </v-main>
+    </header>
   </v-app>
 </template>
 
@@ -53,6 +82,7 @@ export default {
   data() {
     return {
       GitHash: GitHash,
+      drawer: false
     };
   },
 };

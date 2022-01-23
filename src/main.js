@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import vue_qrcode from '@chenfengyuan/vue-qrcode';
+import '@mdi/font/css/materialdesignicons.css' // v-icon用のicon画像を使うため。マテリアルデザインアイコンのライブラリ。
 
 Vue.config.productionTip = false
 
@@ -12,7 +13,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App},
+  components: { App },
   vue_qrcode,
   vuetify,
   template: '<App/>'
