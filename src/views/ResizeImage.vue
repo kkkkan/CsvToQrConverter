@@ -138,58 +138,67 @@ export default {
       this.makeResizeIamgeFiles();
     },
 
-    // 必要なサイズの画像を作成してダウンロードする
+    // 必要なサイズの画像をすべて作成してダウンロードする
     makeResizeIamgeFiles: function () {
-      this.resizeImgAndDownload(this.file, 160, 160);
+      this.resizeImgAndDownload(this.file, 160, 256);
+      this.resizeImgAndDownload(this.file, 512, 512);
+      this.resizeImgAndDownload(this.file, 600, 600);
+      this.resizeImgAndDownload(this.file, 800, 800);
+      this.resizeImgAndDownload(this.file, 1024, 1024);
+      this.resizeImgAndDownload(this.file, 1200, 450);
+      this.resizeImgAndDownload(this.file, 1280, 2048);
+      this.resizeImgAndDownload(this.file, 1600, 600);
+      this.resizeImgAndDownload(this.file, 1600, 1000);
+      this.resizeImgAndDownload(this.file, 1600, 1200);
+      this.resizeImgAndDownload(this.file, 4000, 4000);
     },
 
     // 指定されたサイズに画像をリサイズしてダウンロードする
     resizeImgAndDownload: function (image_file, width, height) {
-      const canvas = this.canvas; //document.createElement('canvas');
+      const canvas = this.canvas;
       canvas.width = width;
       canvas.height = height;
       const ctx = this.context;
       const imageBitmapPromise = createImageBitmap(image_file);
 
-      imageBitmapPromise // 結果を受け取る
-        .then(
+      imageBitmapPromise.then(
+        // ------------------------------------------------------------
+        // 成功時に実行されるコールバック関数
+        // ------------------------------------------------------------
+        function success(image_bitmap) {
           // ------------------------------------------------------------
-          // 成功時に実行されるコールバック関数
+          // ImageBitmap オブジェクトを描画する
           // ------------------------------------------------------------
-          function success(image_bitmap) {
-            // ------------------------------------------------------------
-            // ImageBitmap オブジェクトを描画する
-            // ------------------------------------------------------------
-            ctx.drawImage(image_bitmap, 0, 0, width, height);
+          ctx.drawImage(image_bitmap, 0, 0, width, height);
 
-            // var canvas = document.getElementById(canvas_id);
-            //アンカータグを作成
-            var a = document.createElement('a');
-            //canvasをJPEG変換し、そのBase64文字列をhrefへセット
-            a.href = canvas.toDataURL('image/png');
-            //ダウンロード時のファイル名を指定
-            // 「元のファイル名+大きさ」
-            // 元のファイル名は拡張子はいらないので削除
-            var reg = /(.*)(?:\.([^.]+$))/;
-            a.download =
-              image_file.name.match(reg)[1] +
-              '_' +
-              width +
-              '_×' +
-              height +
-              '.jpg';
-            //クリックイベントを発生させる
-            a.click();
-          },
+          // var canvas = document.getElementById(canvas_id);
+          //アンカータグを作成
+          var a = document.createElement('a');
+          //canvasをJPEG変換し、そのBase64文字列をhrefへセット
+          a.href = canvas.toDataURL('image/png');
+          //ダウンロード時のファイル名を指定
+          // 「元のファイル名+大きさ」
+          // 元のファイル名は拡張子はいらないので削除
+          var reg = /(.*)(?:\.([^.]+$))/;
+          a.download =
+            image_file.name.match(reg)[1] +
+            '_' +
+            width +
+            '_×' +
+            height +
+            '.jpg';
+          //クリックイベントを発生させる
+          a.click();
+        },
 
-          // ------------------------------------------------------------
-          // 失敗時に実行されるコールバック関数
-          // ------------------------------------------------------------
-          function failure(e) {
-            // 出力テスト
-            console.log(e);
-          }
-        );
+        // ------------------------------------------------------------
+        // 失敗時に実行されるコールバック関数
+        // ------------------------------------------------------------
+        function failure(e) {
+          // 出力テスト
+          console.log(e);
+        }
+      ); // 結果を受け取る
     },
   },
 
