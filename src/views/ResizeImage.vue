@@ -105,29 +105,16 @@
 </template>
 
 <script>
-import QrItem from '../components/QrItem.vue';
-
-const CHARACTER_CODE_SHIFT_JIS = 'Shift_JIS';
-const CHARACTER_CODE_UTF_8 = 'utf-8';
 
 export default {
   name: 'ResizeImage',
 
-  components: {
-    QrItem,
-  },
-
   data() {
     return {
       error_message: '', // エラーメッセージ
-      workers: [], // アップロードされたcsvの内容。解析結果。
-      // character_code: CHARACTER_CODE_SHIFT_JIS, // csvファイルを解析するときの文字コード
-      qr_index: 5, // QRにするデータが何列目か(0始まり)
-      is_encode_first_row: false, // 最初の行もエンコーディングするか
       file: null, // アップロードされたFile　
       canvas : null,
       context:null,
-
     };
   },
 
@@ -167,6 +154,7 @@ export default {
       canvas.height = height;
       const ctx = this.context;
       const imageBitmapPromise =createImageBitmap(image_file)
+
       imageBitmapPromise// 結果を受け取る
 		  .then(
 
@@ -178,7 +166,7 @@ export default {
 				// ------------------------------------------------------------
 				// ImageBitmap オブジェクトを描画する
 				// ------------------------------------------------------------
-				ctx.drawImage( image_bitmap , 0 , 0 );
+				ctx.drawImage( image_bitmap , 0 , 0);
 
       // var canvas = document.getElementById(canvas_id);
 	    //アンカータグを作成
@@ -186,7 +174,10 @@ export default {
 	    //canvasをJPEG変換し、そのBase64文字列をhrefへセット
 	    a.href = canvas.toDataURL('image/png');
 	    //ダウンロード時のファイル名を指定
-	    a.download = image_file.name+'_'+width+'_×'+height+'_.jpg';
+      // 「元のファイル名+大きさ」
+      // 元のファイル名は拡張子はいらないので削除
+      var reg=/(.*)(?:\.([^.]+$))/; 
+	    a.download = image_file.name.match(reg)[1]+'_'+width+'_×'+height+'.jpg';
 	    //クリックイベントを発生させる
 	    a.click();
 
