@@ -16,6 +16,11 @@
       2048px / 1600px × 600px / 1600px × 1200px / 1600px × 1200px / 4000px ×
       4000px
     </p>
+
+    <p class="mt-4 font-weight-bold black--text">
+      もし1枚しかダウンロードされないときは、ブラウザの設定で「複数画像のダウンロード」を許可してください。
+    </p>
+
     <!--エラーメッセージがあったら表示-->
     <p v-if="this.error_message" class="mt-4 font-weight-bold red--text">
       {{ error_message }}
