@@ -6,14 +6,16 @@
       アップロードした画像をリサイズします。画像拡張子はpngのみ対応しています。
     </div>
 
-    <p v-if="this.error_message" class="mt-4 font-weight-bold indigo--text">
-      変換後サイズ :
-    </p>
-
     <label>
       <input type="file" @change="onUpload" />
     </label>
 
+    <p class="mt-4 font-weight-bold indigo--text">
+      変換後サイズ : 160px × 256px / 512px × 512px / 600px × 600px / 800px ×
+      800px / 1024px × 1024px / 1200px × 450px / 1280px × 2048px / 1280px ×
+      2048px / 1600px × 600px / 1600px × 1200px / 1600px × 1200px / 4000px ×
+      4000px
+    </p>
     <!--エラーメッセージがあったら表示-->
     <p v-if="this.error_message" class="mt-4 font-weight-bold red--text">
       {{ error_message }}
