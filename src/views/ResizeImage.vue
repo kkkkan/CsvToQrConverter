@@ -3,7 +3,12 @@
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
     <div class="text-h6 mb-10 font-weight-bold indigo--text">
-      アップロードした画像を複数のサイズに自動でリサイズ&ダウンロードします。画像拡張子はpngのみ対応しています。
+      <p>
+        アップロードした画像を複数のサイズに自動でリサイズ&ダウンロードします。
+      </p>
+      <p>
+        アップロード画像はpng・jpegのみ対応しています。ダウンロード画像の拡張子はjpegです。
+      </p>
     </div>
 
     <label>
@@ -87,8 +92,9 @@ export default {
       const files = event.target.files || event.dataTransfer.files;
       const _file = files[0];
 
-      if (!_file.type.match('image/png')) {
-        this.error_message = '!!! PNGファイルを選択してください !!!';
+      if (!_file.type.match('image/png') && !_file.type.match('image/jpeg')) {
+        this.error_message =
+          '!!! PNGファイルまたはJPEGファイルを選択してください !!!';
         return;
       }
 
