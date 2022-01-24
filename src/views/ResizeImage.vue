@@ -44,6 +44,27 @@
 </template>
 
 <script>
+// ファイルにした時の大きさを計算する
+// https://qiita.com/lt900ed/items/d230b89be5106d949cea
+function base64ToFile(data) {
+  try {
+    let separetedDate = data.split(',');
+    let mimeTypeData = separetedDate[0].match(/:(.*?);/);
+    let mimeType = Array.isArray(mimeTypeData) ? mimeTypeData[0] : '';
+    let decodedData = atob(separetedDate[1]);
+    let dataLength = decodedData.length;
+    let arrayBuffer = new ArrayBuffer(dataLength);
+    let u8arr = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < dataLength; i += 1) {
+      u8arr[i] = decodedData.charCodeAt(i);
+    }
+    return new Blob([u8arr], { type: mimeType });
+  } catch (errors) {
+    console.log(errors);
+    return new Blob([]);
+  }
+}
+
 export default {
   name: 'ResizeImage',
 
@@ -92,7 +113,8 @@ export default {
     },
 
     // 指定されたサイズに画像をリサイズしてダウンロードする
-    resizeImgAndDownload: function (image_file, width, height) {
+    // 指定されたファイル容量になるように画質も落とす
+    resizeImgAndDownload: function (image_file, width, height, max_kb) {
       // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
       // 生成画像の大きさがおかしくなる。
       const canvas = document.createElement('canvas');
@@ -113,8 +135,21 @@ export default {
 
           //アンカータグを作成
           var a = document.createElement('a');
-          //canvasをpng変換し、そのBase64文字列をhrefへセット
-          a.href = canvas.toDataURL('image/png');
+          //canvasをjpeg変換し、そのBase64文字列をhrefへセット
+          //入力canvasのファイルサイズを計測
+          // 上限以下になるまで画質品質を0.5ずつ下げて調整
+          var facter = 0;
+          while (true) {
+            const filesize_out = base64ToFile(
+              canvas.toDataURL('image/jpeg', 1.0 - 0.5 * facter)
+            )['size'];
+            if (filesize_out < max_kb * 10000 || 0.5 * facter <= 0.5) {
+              break;
+            } else {
+              facter += 1;
+            }
+          }
+          a.href = canvas.toDataURL('image/jpeg', 0.9 - 0.5 * facter);
           //ダウンロード時のファイル名を指定
           // 「元のファイル名+大きさ」
           // 元のファイル名は拡張子はいらないので削除
@@ -125,7 +160,7 @@ export default {
             width +
             '_×' +
             height +
-            '.png';
+            '.jpeg';
           //クリックイベントを発生させる
           a.click();
         },
