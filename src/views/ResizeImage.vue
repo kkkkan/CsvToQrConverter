@@ -11,10 +11,20 @@
     </label>
 
     <p class="mt-4 font-weight-bold indigo--text">
-      変換後サイズ : 160px × 256px / 512px × 512px / 600px × 600px / 800px ×
-      800px / 1024px × 1024px / 1200px × 450px / 1280px × 2048px / 1280px ×
-      2048px / 1600px × 600px / 1600px × 1200px / 1600px × 1200px / 4000px ×
-      4000px
+      変換後サイズ & ファイルサイズ上限
+      <ui>
+        <li>160px × 256px (100KB)</li>
+        <li>512px × 512px (4,000KB)</li>
+        <li>600px × 600px (400KB)</li>
+        <li>800px × 800px (500KB)</li>
+        <li>1024px × 1024px (4,000KB)</li>
+        <li>1200px × 450px (500KB)</li>
+        <li>1280px × 2048px (4,000KB)</li>
+        <li>1600px × 600px (4,000KB)</li>
+        <li>1600px × 1000px (4,000KB)</li>
+        <li>1600px × 1200px (4,000KB)</li>
+        <li>4000px × 4000px (4,000KB)</li>
+      </ui>
     </p>
 
     <p class="mt-4 font-weight-bold black--text">
