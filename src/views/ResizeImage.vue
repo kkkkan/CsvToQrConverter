@@ -161,11 +161,11 @@ export default {
           // 元のファイル名は拡張子はいらないので削除
           var reg = /(.*)(?:\.([^.]+$))/;
           a.download =
-            image_file.name.match(reg)[1] +
-            '_' +
             width +
             '_×' +
             height +
+            '_' +
+            image_file.name.match(reg)[1] +
             '.jpeg';
           //クリックイベントを発生させる
           a.click();
