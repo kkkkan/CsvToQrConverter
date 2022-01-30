@@ -149,13 +149,13 @@ export default {
             const filesize_out = base64ToFile(
               canvas.toDataURL('image/jpeg', 1.0 - 0.5 * facter)
             )['size'];
-            if (filesize_out < max_kb * 10000 || 0.5 * facter <= 0.5) {
+            if (filesize_out < max_kb * 1000 || 1.0 - 0.5 * facter <= 0.5) {
               break;
             } else {
               facter += 1;
             }
           }
-          a.href = canvas.toDataURL('image/jpeg', 0.9 - 0.5 * facter);
+          a.href = canvas.toDataURL('image/jpeg', 1.0 - 0.5 * facter);
           //ダウンロード時のファイル名を指定
           // 「元のファイル名+大きさ」
           // 元のファイル名は拡張子はいらないので削除
