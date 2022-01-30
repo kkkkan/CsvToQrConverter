@@ -143,19 +143,19 @@ export default {
           var a = document.createElement('a');
           //canvasをjpeg変換し、そのBase64文字列をhrefへセット
           //入力canvasのファイルサイズを計測
-          // 上限以下になるまで画質品質を0.5ずつ下げて調整
+          // 上限以下になるまで画質品質を0.05ずつ下げて調整
           var facter = 0;
           while (true) {
             const filesize_out = base64ToFile(
-              canvas.toDataURL('image/jpeg', 1.0 - 0.5 * facter)
+              canvas.toDataURL('image/jpeg', 1.0 - 0.05 * facter)
             )['size'];
-            if (filesize_out < max_kb * 1000 || 1.0 - 0.5 * facter <= 0.5) {
+            if (filesize_out < max_kb * 1000 || 1.0 - 0.05 * facter <= 0.05) {
               break;
             } else {
               facter += 1;
             }
           }
-          a.href = canvas.toDataURL('image/jpeg', 1.0 - 0.5 * facter);
+          a.href = canvas.toDataURL('image/jpeg', 1.0 - 0.05 * facter);
           //ダウンロード時のファイル名を指定
           // 「元のファイル名+大きさ」
           // 元のファイル名は拡張子はいらないので削除
