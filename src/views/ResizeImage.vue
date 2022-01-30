@@ -105,17 +105,17 @@ export default {
 
     // 必要なサイズの画像をすべて作成してダウンロードする
     makeResizeIamgeFiles: function () {
-      this.resizeImgAndDownload(this.file, 160, 256);
-      this.resizeImgAndDownload(this.file, 512, 512);
-      this.resizeImgAndDownload(this.file, 600, 600);
-      this.resizeImgAndDownload(this.file, 800, 800);
-      this.resizeImgAndDownload(this.file, 1024, 1024);
-      this.resizeImgAndDownload(this.file, 1200, 450);
-      this.resizeImgAndDownload(this.file, 1280, 2048);
-      this.resizeImgAndDownload(this.file, 1600, 600);
-      this.resizeImgAndDownload(this.file, 1600, 1000);
-      this.resizeImgAndDownload(this.file, 1600, 1200);
-      this.resizeImgAndDownload(this.file, 4000, 4000);
+      this.resizeImgAndDownload(this.file, 160, 256, 100);
+      this.resizeImgAndDownload(this.file, 512, 512, 4000);
+      this.resizeImgAndDownload(this.file, 600, 600, 400);
+      this.resizeImgAndDownload(this.file, 800, 800, 500);
+      this.resizeImgAndDownload(this.file, 1024, 1024, 4000);
+      this.resizeImgAndDownload(this.file, 1200, 450, 500);
+      this.resizeImgAndDownload(this.file, 1280, 2048, 4000);
+      this.resizeImgAndDownload(this.file, 1600, 600, 4000);
+      this.resizeImgAndDownload(this.file, 1600, 1000, 4000);
+      this.resizeImgAndDownload(this.file, 1600, 1200, 4000);
+      this.resizeImgAndDownload(this.file, 4000, 4000, 4000);
     },
 
     // 指定されたサイズに画像をリサイズしてダウンロードする
