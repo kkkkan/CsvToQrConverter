@@ -77,6 +77,7 @@ export default {
     return {
       error_message: '', // エラーメッセージ
       file: null, // アップロードされたFile
+      downloadType: 'png',
     };
   },
 
@@ -121,6 +122,22 @@ export default {
     // 指定されたサイズに画像をリサイズしてダウンロードする
     // 指定されたファイル容量になるように画質も落とす
     resizeImgAndDownload: function (image_file, width, height, max_kb) {
+      const downloadType = this.downloadType;
+      if (downloadType == 'jpeg') {
+        this.resizeImgAndDownloadJpeg(image_file, width, height, max_kb);
+      } else if (downloadType == 'png') {
+        var reg = /(.*)(?:\.([^.]+$))/;
+        this.resizeImgAndDownloadPng(
+          image_file,
+          image_file.name.match(reg)[1],
+          width,
+          height,
+          max_kb,
+          0
+        );
+      }
+    },
+    resizeImgAndDownloadJpeg: function (image_file, width, height, max_kb) {
       // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
       // 生成画像の大きさがおかしくなる。
       const canvas = document.createElement('canvas');
@@ -169,6 +186,109 @@ export default {
             '.jpeg';
           //クリックイベントを発生させる
           a.click();
+        },
+
+        // ------------------------------------------------------------
+        // 失敗時に実行されるコールバック関数
+        // ------------------------------------------------------------
+        function failure(e) {
+          // 出力テスト
+          console.log(e);
+        }
+      ); // 結果を受け取る
+    },
+
+    resizeImgAndDownloadPng: function (
+      image_file,
+      file_name,
+      width,
+      height,
+      max_kb,
+      facter
+    ) {
+      // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
+      // 生成画像の大きさがおかしくなる。
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const imageBitmapPromise = createImageBitmap(image_file);
+      const thisInstance = this;
+      const recursiveCall = function (
+        image_file,
+        file_name,
+        width,
+        height,
+        max_kb,
+        facter
+      ) {
+        thisInstance.resizeImgAndDownloadPng(
+          image_file,
+          file_name,
+          width,
+          height,
+          max_kb,
+          facter
+        );
+      };
+
+      imageBitmapPromise.then(
+        // ------------------------------------------------------------
+        // 成功時に実行されるコールバック関数
+        // ------------------------------------------------------------
+        function success(image_bitmap) {
+          // ------------------------------------------------------------
+          // ImageBitmap オブジェクトを描画する
+          // ------------------------------------------------------------
+          ctx.drawImage(image_bitmap, 0, 0, width, height);
+
+          //アンカータグを作成
+          var a = document.createElement('a');
+          //canvasをpng変換し、そのBase64文字列をhrefへセット
+          //入力canvasのファイルサイズを計測
+          // TODO 上限以下になるまで下げる
+
+          const out_file = base64ToFile(canvas.toDataURL('image/png'));
+          const filesize_out = base64ToFile(canvas.toDataURL('image/png'))[
+            'size'
+          ];
+          if (filesize_out < max_kb * 1000 || 1.0 - 0.05 * facter <= 0.05) {
+            a.href = canvas.toDataURL('image/png');
+            //ダウンロード時のファイル名を指定
+            // 「大きさ+元のファイル名」
+            a.download =
+              width +
+              '_×' +
+              height +
+              '_' +
+              facter +
+              '_' +
+              filesize_out +
+              '_' +
+              file_name +
+              '.png';
+            //クリックイベントを発生させる
+            a.click();
+          } else {
+            // var Jimp = require('jimp');
+            // Jimp.read(canvas.toDataURL('image/png'), function (err, image) {
+            //   if (err) throw err;
+            //   image.dither565();
+            // });
+            const nextFacter = (facter += 1);
+
+            console.error('nextFacter ' + nextFacter + ' size ' + filesize_out);
+            recursiveCall(
+              base64ToFile(
+                canvas.toDataURL('image/jpeg', 1.0 - 0.05 * nextFacter)
+              ),
+              file_name,
+              width,
+              height,
+              max_kb,
+              nextFacter
+            );
+          }
         },
 
         // ------------------------------------------------------------
