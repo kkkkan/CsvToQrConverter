@@ -162,6 +162,8 @@ export default {
         this.resizeImgAndDownloadPng(image_file, width, height, max_kb);
       }
     },
+
+    // ファイルサイズを調整しながらjpegファイルを作成しダウンロードする。
     resizeImgAndDownloadJpeg: function (image_file, width, height, max_kb) {
       // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
       // 生成画像の大きさがおかしくなる。
@@ -223,6 +225,7 @@ export default {
       ); // 結果を受け取る
     },
 
+    // ファイルサイズを調整しながらpngファイルを作成しダウンロードする。
     resizeImgAndDownloadPng: function (image_file, width, height, max_kb) {
       // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
       // 生成画像の大きさがおかしくなる。
@@ -236,9 +239,11 @@ export default {
       const file_name =
         width + '_×' + height + '_' + image_file.name.match(reg)[1] + '.png';
       const imageBitmapPromise = createImageBitmap(image_file);
+      // カラータイプを下げてファイルサイズを下げる
+      // 上限に収まるようになったらダウンロードする
       const compressPng = function (image_data_url, colorNum) {
         // ファイル上限よりファイルサイズが大きかった時
-        // 色サイズを下げる
+        // jimpを使用してカラータイプを下げる
         var Jimp = require('jimp');
         Jimp.read(image_data_url, function (err, image) {
           if (err) throw err;
@@ -247,7 +252,7 @@ export default {
             const filesize_out = base64ToFile(src)['size'];
             // console.error('colorNum ' + colorNum + ' ' + filesize_out);
             if (filesize_out < max_kb * 1000 || colorNum == 0) {
-              // 上限より小さかったら or color量を下げれるだけ下げてしまっていたら
+              // 上限より小さかったら or カラータイプを下げれるだけ下げてしまっていたら
               // 画像をダウンロード
               //アンカータグを作成
               var a = document.createElement('a');
@@ -257,8 +262,8 @@ export default {
               a.click();
             } else {
               // 大きかったら
-              // カラー数をもう一つ下げる
-              // jimpのカラー数は0,2,4,6
+              // カラータイプをもう一つ下げる
+              // jimpのカラータイプは0,2,4,6
               compressPng(image_data_url, colorNum - 2);
             }
           });
@@ -284,6 +289,7 @@ export default {
           const filesize_out = base64ToFile(data_url)['size'];
           // console.error('filesizeorigiun ' + filesize_out);
           if (filesize_out < max_kb * 1000) {
+            // 上限に収まっているとき
             a.href = data_url;
             //ダウンロード時のファイル名を指定
             // 「大きさ+元のファイル名」
@@ -292,7 +298,7 @@ export default {
             a.click();
           } else {
             // ファイル上限よりファイルサイズが大きかった時
-            // 色サイズを下げる
+            // カラータイプを下げる
             compressPng(data_url, 6);
           }
         },
