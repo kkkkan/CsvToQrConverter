@@ -126,15 +126,7 @@ export default {
       if (downloadType == 'jpeg') {
         this.resizeImgAndDownloadJpeg(image_file, width, height, max_kb);
       } else if (downloadType == 'png') {
-        var reg = /(.*)(?:\.([^.]+$))/;
-        this.resizeImgAndDownloadPng(
-          image_file,
-          image_file.name.match(reg)[1],
-          width,
-          height,
-          max_kb,
-          0
-        );
+        this.resizeImgAndDownloadPng(image_file, width, height, max_kb);
       }
     },
     resizeImgAndDownloadJpeg: function (image_file, width, height, max_kb) {
@@ -198,38 +190,46 @@ export default {
       ); // 結果を受け取る
     },
 
-    resizeImgAndDownloadPng: function (
-      image_file,
-      file_name,
-      width,
-      height,
-      max_kb,
-      facter
-    ) {
+    resizeImgAndDownloadPng: function (image_file, width, height, max_kb) {
       // 毎回別のCanvasを作成してやらないと、複数枚一度にダウンロードしたときにあとから設定したサイズの影響が残ってしまい
       // 生成画像の大きさがおかしくなる。
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext('2d');
+      //ダウンロード時のファイル名を作成
+      // 「大きさ+元のファイル名」
+      var reg = /(.*)(?:\.([^.]+$))/;
+      const file_name =
+        width + '_×' + height + '_' + image_file.name.match(reg)[1] + '.png';
       const imageBitmapPromise = createImageBitmap(image_file);
-      const thisInstance = this;
-      const recursiveCall = function (
-        image_file,
-        file_name,
-        width,
-        height,
-        max_kb,
-        facter
-      ) {
-        thisInstance.resizeImgAndDownloadPng(
-          image_file,
-          file_name,
-          width,
-          height,
-          max_kb,
-          facter
-        );
+      const compressPng = function (image_data_url, colorNum) {
+        // ファイル上限よりファイルサイズが大きかった時
+        // 色サイズを下げる
+        var Jimp = require('jimp');
+        Jimp.read(image_data_url, function (err, image) {
+          if (err) throw err;
+          image.colorType(colorNum);
+          image.getBase64(Jimp.MIME_PNG, function (err, src) {
+            const filesize_out = base64ToFile(src)['size'];
+            // console.error('colorNum ' + colorNum + ' ' + filesize_out);
+            if (filesize_out < max_kb * 1000 || colorNum == 0) {
+              // 上限より小さかったら or color量を下げれるだけ下げてしまっていたら
+              // 画像をダウンロード
+              //アンカータグを作成
+              var a = document.createElement('a');
+              a.href = src;
+              a.download = file_name;
+              //クリックイベントを発生させる
+              a.click();
+            } else {
+              // 大きかったら
+              // カラー数をもう一つ下げる
+              // jimpのカラー数は0,2,4,6
+              compressPng(image_data_url, colorNum - 2);
+            }
+          });
+        });
       };
 
       imageBitmapPromise.then(
@@ -246,48 +246,21 @@ export default {
           var a = document.createElement('a');
           //canvasをpng変換し、そのBase64文字列をhrefへセット
           //入力canvasのファイルサイズを計測
-          // TODO 上限以下になるまで下げる
 
-          const out_file = base64ToFile(canvas.toDataURL('image/png'));
-          const filesize_out = base64ToFile(canvas.toDataURL('image/png'))[
-            'size'
-          ];
-          if (filesize_out < max_kb * 1000 || 1.0 - 0.05 * facter <= 0.05) {
-            a.href = canvas.toDataURL('image/png');
+          const data_url = canvas.toDataURL('image/png');
+          const filesize_out = base64ToFile(data_url)['size'];
+          // console.error('filesizeorigiun ' + filesize_out);
+          if (filesize_out < max_kb * 1000) {
+            a.href = data_url;
             //ダウンロード時のファイル名を指定
             // 「大きさ+元のファイル名」
-            a.download =
-              width +
-              '_×' +
-              height +
-              '_' +
-              facter +
-              '_' +
-              filesize_out +
-              '_' +
-              file_name +
-              '.png';
+            a.download = file_name;
             //クリックイベントを発生させる
             a.click();
           } else {
-            // var Jimp = require('jimp');
-            // Jimp.read(canvas.toDataURL('image/png'), function (err, image) {
-            //   if (err) throw err;
-            //   image.dither565();
-            // });
-            const nextFacter = (facter += 1);
-
-            console.error('nextFacter ' + nextFacter + ' size ' + filesize_out);
-            recursiveCall(
-              base64ToFile(
-                canvas.toDataURL('image/jpeg', 1.0 - 0.05 * nextFacter)
-              ),
-              file_name,
-              width,
-              height,
-              max_kb,
-              nextFacter
-            );
+            // ファイル上限よりファイルサイズが大きかった時
+            // 色サイズを下げる
+            compressPng(data_url, 6);
           }
         },
 
