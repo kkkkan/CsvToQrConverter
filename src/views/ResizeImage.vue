@@ -7,13 +7,46 @@
         アップロードした画像を複数のサイズに自動でリサイズ&ダウンロードします。
       </p>
       <p>
-        アップロード画像はpng・jpegのみ対応しています。ダウンロード画像の拡張子はjpegです。
+        アップロード画像はpng・jpegのみ対応しています。ダウンロード画像の拡張子はjpegまたはpngです。
       </p>
     </div>
 
     <label>
       <input type="file" @change="onUpload" />
     </label>
+
+    <!--出力ファイル形式の設定-->
+    <p class="mt-4 mb-4">
+      <span>出力ファイル:</span>
+
+      <span>
+        <label class="mr-2 ml-2">
+          <input type="radio" v-model="downloadType" value="jpeg" /><span
+            v-bind:class="{
+              'font-weight-bold': downloadType == 'jpeg',
+            }"
+            >JPEG</span
+          ></label
+        >
+        <label
+          ><input type="radio" v-model="downloadType" value="png" /><span
+            v-bind:class="{
+              'font-weight-bold': downloadType == 'png',
+            }"
+            >PNG</span
+          ></label
+        >
+      </span>
+    </p>
+
+    <p
+      v-if="downloadType == 'png'"
+      class="mt-4 text-subtitle-2 font-weight-bold red--text"
+    >
+      PNGで出力する場合は、ファイルサイズ上限を超えることがあります。
+      <br />
+      また、サイズ上限に収めるために白黒画像になることがあります。
+    </p>
 
     <p class="mt-4 font-weight-bold indigo--text">
       変換後サイズ & ファイルサイズ上限
@@ -77,7 +110,7 @@ export default {
     return {
       error_message: '', // エラーメッセージ
       file: null, // アップロードされたFile
-      downloadType: 'png',
+      downloadType: 'jpeg',
     };
   },
 
