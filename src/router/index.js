@@ -17,7 +17,8 @@ export default new Router({
       meta: {
         appTitle: 'CSV→QR 生成', // アプリバーのタイトル
         appBarColor: 'teal lighten-5', // アプリバーの背景色
-        textColorClass: 'teal--text' // アプリバーを含めた画面全体のテキストの基本色
+        appNavIconColor: 'teal', // アプリバーのナビゲーションアイコンの色
+        textColorClass: 'teal--text', // アプリバーを含めた画面全体のテキストの基本色
       }
     },
     {
@@ -28,6 +29,7 @@ export default new Router({
       meta: {
         appTitle: '画像リサイズ',
         appBarColor: 'pink lighten-5',
+        appNavIconColor: 'pink',
         textColorClass: 'pink--text',
       }
     },
@@ -40,6 +42,7 @@ export default new Router({
         appTitle: 'Androidアプリアイコン用にリサイザー',
         appBarColor: 'orange lighten-5',
         textColorClass: 'orange--text'
+        appNavIconColor: 'orange darken-3',
       }
     }
   ]

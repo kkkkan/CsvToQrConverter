@@ -3,7 +3,7 @@
   <header>
     <v-app-bar app  light v-bind:color="this.appBarColor">
         <v-app-bar-nav-icon v-on:click="drawer = true" >
-         <v-icon>mdi-menu</v-icon> <!--メニューアイコン-->
+         <v-icon v-bind:color="this.appNavIconColor">mdi-menu</v-icon> <!--メニューアイコン-->
         </v-app-bar-nav-icon>
       <v-toolbar-title class="font-weight-black text-h4 mt-2" v-bind:class="this.textColorClass">
         {{ appTitle }}</v-toolbar-title
@@ -72,7 +72,7 @@
         <v-row justify="end" class=" font-weight-black" v-bind:class="this.textColorClass">
           <div>kan4649kan@gmail.com</div>
         </v-row>
-      </v-container>
+        </v-container>
     </v-main>
     </header>
   </v-app>
@@ -90,6 +90,7 @@ export default {
       drawer: false,
       appTitle: String,
       appBarColor: String,
+      appNavIconColor: String,
       textColorClass: String,
     };
   },
@@ -110,6 +111,13 @@ export default {
         this.appBarColor = setBarColor;
       } else {
         this.appBarColor = 'primary';
+      }
+
+      if (routeInstance.meta.appNavIconColor) {
+        var setNavColor = routeInstance.meta.appNavIconColor;
+        this.appNavIconColor = setNavColor;
+      } else {
+        this.appNavIconColor = 'indigo';
       }
 
       if (routeInstance.meta.textColorClass) {
