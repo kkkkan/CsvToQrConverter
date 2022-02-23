@@ -14,21 +14,33 @@ export default new Router({
       name: 'Home',
       component: Home,
       // アプリバーのタイトルにセットする用のデータ
-      meta: { appTitle: 'CSV→QR 生成' }
+      meta: {
+        appTitle: 'CSV→QR 生成', // アプリバーのタイトル
+        appBarColor: 'teal lighten-5', // アプリバーの背景色
+        textColorClass: 'teal--text' // アプリバーを含めた画面全体のテキストの基本色
+      }
     },
     {
       path: '/resize-image',
       name: 'ResizeImage',
       component: ResizeImage,
       // アプリバーのタイトルにセットする用のデータ
-      meta: { appTitle: '画像リサイズ' }
+      meta: {
+        appTitle: '画像リサイズ',
+        appBarColor: 'pink lighten-5',
+        textColorClass: 'pink--text',
+      }
     },
     {
       path: '/icon_image_maker',
       name: 'IconImageMaker',
       component: IconImageMaker,
       // アプリバーのタイトルにセットする用のデータ
-      meta: { appTitle: 'Androidアプリアイコン用にリサイザー' }
+      meta: {
+        appTitle: 'Androidアプリアイコン用にリサイザー',
+        appBarColor: 'orange lighten-5',
+        textColorClass: 'orange--text'
+      }
     }
   ]
 })

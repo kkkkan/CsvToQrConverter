@@ -2,7 +2,10 @@
   <div class="overflow-x-auto">
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
-    <div class="text-h6 mb-10 font-weight-bold indigo--text">
+    <div
+      class="text-h6 mb-10 font-weight-bold"
+      v-bind:class="this.textColorClass"
+    >
       CSVファイルの指定された列のデータをQRコード画像にします。
     </div>
 
@@ -117,6 +120,7 @@ export default {
       qr_index: 5, // QRにするデータが何列目か(0始まり)
       is_encode_first_row: false, // 最初の行もエンコーディングするか
       file: null, // アップロードされたFile　文字コードが変わったときに再分析するためにFileそのものをとっておく必要がある
+      textColorClass: String, // このページのテキストの基本色
     };
   },
 
@@ -178,6 +182,16 @@ export default {
       // ので、データごと作り直してやる。
       this.makeWorkers();
     },
+  },
+
+  mounted() {
+    // ページのテーマを決める
+    if (this.$route.meta.textColorClass) {
+      var setClass = this.$route.meta.textColorClass;
+      this.textColorClass = setClass;
+    } else {
+      this.textColorClass = 'indigo--text';
+    }
   },
 };
 </script>

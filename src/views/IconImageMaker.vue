@@ -2,7 +2,10 @@ npm<template>
   <div class="overflow-x-auto">
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
-    <div class="text-h6 mb-10 font-weight-bold indigo--text">
+    <div
+      class="text-h6 mb-10 font-weight-bold"
+      v-bind:class="this.textColorClass"
+    >
       <p>
         アップロードした画像をAndroidアプリのアイコン用のサイズに自動でリサイズ&ダウンロードします。<br />
         「元のファイル名+設置すべきフォルダの解析度」.png
@@ -19,7 +22,7 @@ npm<template>
       <input type="file" @change="onUpload" />
     </label>
 
-    <p class="mt-4 font-weight-bold indigo--text">
+    <p class="mt-4 font-weight-bold" v-bind:class="this.textColorClass">
       変換後サイズ
       <ui>
         <li>108px × 108px … mdpi</li>
@@ -54,6 +57,7 @@ export default {
     return {
       error_message: '', // エラーメッセージ
       file: null, // アップロードされたFile
+      textColorClass: String, // このページのテキストの基本色
     };
   },
 
@@ -149,6 +153,16 @@ export default {
     workers: function (newValue, oldValue) {
       this.makeResizeIamgeFiles();
     },
+  },
+
+  mounted() {
+    // ページのテーマを決める
+    if (this.$route.meta.textColorClass) {
+      var setClass = this.$route.meta.textColorClass;
+      this.textColorClass = setClass;
+    } else {
+      this.textColorClass = 'indigo--text';
+    }
   },
 };
 </script>

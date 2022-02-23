@@ -2,7 +2,10 @@
   <div class="overflow-x-auto">
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
-    <div class="text-h6 mb-10 font-weight-bold indigo--text">
+    <div
+      class="text-h6 mb-10 font-weight-bold"
+      v-bind:class="this.textColorClass"
+    >
       <p>
         アップロードした画像を複数のサイズに自動でリサイズ&ダウンロードします。
       </p>
@@ -48,7 +51,7 @@
       また、サイズ上限に収めるために白黒画像になることがあります。
     </p>
 
-    <p class="mt-4 font-weight-bold indigo--text">
+    <p class="mt-4 font-weight-bold" v-bind:class="this.textColorClass">
       変換後サイズ & ファイルサイズ上限
       <ui>
         <li>160px × 256px (100KB)</li>
@@ -111,6 +114,7 @@ export default {
       error_message: '', // エラーメッセージ
       file: null, // アップロードされたFile
       downloadType: 'jpeg',
+      textColorClass: String, // このページのテキストの基本色
     };
   },
 
@@ -312,12 +316,32 @@ export default {
         }
       ); // 結果を受け取る
     },
+
+    // ページのテーマを決める
+    createTitleDesc: function (routeInstance) {
+      if (routeInstance.meta.textColorClass) {
+        var setClass = routeInstance.meta.textColorClass;
+        this.textColorClass = setClass;
+      } else {
+        this.textColorClass = 'indigo--text';
+      }
+    },
   },
 
   watch: {
     workers: function (newValue, oldValue) {
       this.makeResizeIamgeFiles();
     },
+  },
+
+  mounted() {
+    // ページのテーマを決める
+    if (this.$route.meta.textColorClass) {
+      var setClass = this.$route.meta.textColorClass;
+      this.textColorClass = setClass;
+    } else {
+      this.textColorClass = 'indigo--text';
+    }
   },
 };
 </script>

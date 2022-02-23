@@ -1,11 +1,11 @@
 <template>
   <v-app>
   <header>
-    <v-app-bar app color="primary" light>
+    <v-app-bar app  light v-bind:color="this.appBarColor">
         <v-app-bar-nav-icon v-on:click="drawer = true" >
          <v-icon>mdi-menu</v-icon> <!--メニューアイコン-->
         </v-app-bar-nav-icon>
-      <v-toolbar-title class="indigo--text font-weight-black text-h4 mt-2">
+      <v-toolbar-title class="font-weight-black text-h4 mt-2" v-bind:class="this.textColorClass">
         {{ appTitle }}</v-toolbar-title
       >
 
@@ -13,7 +13,7 @@
 
       <v-container>
         <v-row justify="end">
-          <div class="mt-3 indigo--text font-weight-black">
+          <div class="mt-3  font-weight-black" v-bind:class="this.textColorClass">
             version : {{ this.GitHash }}
           </div>
         </v-row>
@@ -65,11 +65,11 @@
 
         <!--署名は画面下部-->
         <v-row justify="end">
-          <div class="indigo--text font-weight-black">
+          <div class=" font-weight-black" v-bind:class="this.textColorClass">
             &copy; 2021 - {{ new Date().getFullYear() }} kkkkan
           </div>
         </v-row>
-        <v-row justify="end" class="indigo--text font-weight-black">
+        <v-row justify="end" class=" font-weight-black" v-bind:class="this.textColorClass">
           <div>kan4649kan@gmail.com</div>
         </v-row>
       </v-container>
@@ -89,6 +89,8 @@ export default {
       GitHash: GitHash,
       drawer: false,
       appTitle: String,
+      appBarColor: String,
+      textColorClass: String,
     };
   },
 
@@ -101,6 +103,20 @@ export default {
         this.appTitle = setTitle;
       } else {
         this.appTitle = 'title is not set';
+      }
+
+      if (routeInstance.meta.appBarColor) {
+        var setBarColor = routeInstance.meta.appBarColor;
+        this.appBarColor = setBarColor;
+      } else {
+        this.appBarColor = 'primary';
+      }
+
+      if (routeInstance.meta.textColorClass) {
+        var setClass = routeInstance.meta.textColorClass;
+        this.textColorClass = setClass;
+      } else {
+        this.textColorClass = 'indigo--text';
       }
     },
   },
