@@ -2,16 +2,13 @@ npm<template>
   <div class="overflow-x-auto">
     <!--overflow-x-autoを指定しないと縦スクロールバーがQrItemのコンテンツにかぶってしまった。-->
 
-    <div
-      class="text-h6 mb-10 font-weight-bold"
-      v-bind:class="this.textColorClass"
-    >
-      <p>
+    <div class="mb-10" v-bind:class="this.textColorClass">
+      <p class="text-h6 font-weight-bold">
         アップロードした画像をAndroidアプリのアイコン用のサイズに自動でリサイズ&ダウンロードします。<br />
         「元のファイル名+設置すべきフォルダの解析度」.png
         となっているので、アプリソースに移動するときに適切にリネームしてください。
       </p>
-      <p>
+      <p class="text-h6">
         ※アップロード画像はpng・jpegのみ対応しています。ダウンロード画像の拡張子はpngです。
         <br />なるべく大きく・高画質な画像をアップロードすることをお勧めします。
       </p>
@@ -24,7 +21,7 @@ npm<template>
 
     <p class="mt-4 font-weight-bold" v-bind:class="this.textColorClass">
       変換後サイズ
-      <ui>
+      <ui class="font-weight-regular">
         <li>108px × 108px … mdpi</li>
         <li>162px × 162px … hdpi</li>
         <li>216px × 216px … xhpdi</li>

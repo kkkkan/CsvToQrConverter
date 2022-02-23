@@ -53,7 +53,7 @@
 
     <p class="mt-4 font-weight-bold" v-bind:class="this.textColorClass">
       変換後サイズ & ファイルサイズ上限
-      <ui>
+      <ui class="font-weight-regular">
         <li>160px × 256px (100KB)</li>
         <li>512px × 512px (4,000KB)</li>
         <li>600px × 600px (400KB)</li>

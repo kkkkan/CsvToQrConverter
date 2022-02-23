@@ -41,8 +41,8 @@ export default new Router({
       meta: {
         appTitle: 'Androidアプリアイコン用にリサイザー',
         appBarColor: 'orange lighten-5',
-        textColorClass: 'orange--text'
         appNavIconColor: 'orange darken-3',
+        textColorClass: 'orange--text text--darken-3' // テキストカラーは明暗を調整には、色の指定と明暗の指定で二つ必要。
       }
     }
   ]
