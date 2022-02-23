@@ -48,6 +48,11 @@
             >
               <v-list-item-title>画像リサイズ</v-list-item-title>
             </v-list-item>
+                        <v-list-item
+             v-on:click="$router.push({path:'/icon_image_maker'})"
+            >
+              <v-list-item-title>Androidアプリアイコン用にリサイザー</v-list-item-title>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
@@ -92,23 +97,22 @@ export default {
     // 表示しているページによって変える
     createTitleDesc: function (routeInstance) {
       if (routeInstance.meta.appTitle) {
-        var setTitle = routeInstance.meta.appTitle
-        this.appTitle = setTitle
+        var setTitle = routeInstance.meta.appTitle;
+        this.appTitle = setTitle;
       } else {
-        this.appTitle = 'title is not set'
+        this.appTitle = 'title is not set';
       }
     },
   },
   mounted: function () {
-    var routeInstance = this.$route
-    this.createTitleDesc(routeInstance)
+    var routeInstance = this.$route;
+    this.createTitleDesc(routeInstance);
   },
   watch: {
-  $route(routeInstance, from) {
-    this.createTitleDesc(routeInstance)
-  }
+    $route(routeInstance, from) {
+      this.createTitleDesc(routeInstance);
+    },
   },
-
 };
 </script>
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
 import ResizeImage from '@/views/ResizeImage'
+import IconImageMaker from '@/views/IconImageMaker'
 
 Vue.use(Router)
 
@@ -21,6 +22,13 @@ export default new Router({
       component: ResizeImage,
       // アプリバーのタイトルにセットする用のデータ
       meta: { appTitle: '画像リサイズ' }
+    },
+    {
+      path: '/icon_image_maker',
+      name: 'IconImageMaker',
+      component: IconImageMaker,
+      // アプリバーのタイトルにセットする用のデータ
+      meta: { appTitle: 'Androidアプリアイコン用にリサイザー' }
     }
   ]
 })
