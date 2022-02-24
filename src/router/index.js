@@ -13,7 +13,7 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      // アプリバーのタイトルにセットする用のデータ
+      // 画面の細部を決めるためのデータ
       meta: {
         appTitle: 'CSV→QR 生成', // アプリバーのタイトル
         appBarColor: 'teal lighten-5', // アプリバーの背景色
@@ -25,7 +25,7 @@ export default new Router({
       path: '/resize-image',
       name: 'ResizeImage',
       component: ResizeImage,
-      // アプリバーのタイトルにセットする用のデータ
+      // 画面の細部を決めるためのデータ
       meta: {
         appTitle: '画像リサイズ',
         appBarColor: 'pink lighten-5',
@@ -37,7 +37,7 @@ export default new Router({
       path: '/icon_image_maker',
       name: 'IconImageMaker',
       component: IconImageMaker,
-      // アプリバーのタイトルにセットする用のデータ
+      // 画面の細部を決めるためのデータ
       meta: {
         appTitle: 'Androidアプリアイコン用にリサイザー',
         appBarColor: 'orange lighten-5',
